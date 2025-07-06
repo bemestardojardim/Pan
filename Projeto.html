@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Panificadora - Bike Motorizada</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #121212;
+        }
+        
+        header {
+            background-color: #1e3a8a;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.2em;
+            color: #ffffff;
+        }
+        
+        h2 {
+            color: #60a5fa;
+            border-bottom: 2px solid #60a5fa;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #93c5fd;
+        }
+        
+        .goal {
+            background-color: #7f1d1d;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+        }
+        
+        th, td {
+            border: 1px solid #444;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #1e3a8a;
+            color: white;
+        }
+        
+        tr {
+            background-color: #1e1e1e;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #252525;
+        }
+        
+        .highlight {
+            background-color: #374151;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #fbbf24;
+        }
+        
+        .strategy-card {
+            background-color: #1f2937;
+            border-left: 5px solid #60a5fa;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #9ca3af;
+            font-size: 0.9em;
+            border-top: 1px solid #374151;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+            margin: 30px 0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #60a5fa;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #60a5fa;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Projeto Panificadora Caseira</h1>
+        <p>Plano de negócios para arrecadar R$ 1.500 e comprar uma bike motorizada</p>
+    </header>
+    
+    <div class="goal">
+        <p>Meta: Arrecadar R$ 1.500 através da venda de pães, pré-pizzas e outros panificados</p>
+    </div>
+    
+    <section>
+        <h2>1. Cálculo dos Custos Básicos</h2>
+        <p>Para começar o projeto, é essencial entender os custos envolvidos na produção:</p>
+        
+        <table>
+            <tr>
+                <th>Ingrediente</th>
+                <th>Preço</th>
+                <th>Custo por unidade</th>
+            </tr>
+            <tr>
+                <td>Trigo</td>
+                <td>R$ 4/kg</td>
+                <td>Base para pães e pré-pizzas</td>
+            </tr>
+            <tr>
+                <td>Fermento</td>
+                <td>R$ 20/500g</td>
+                <td>R$ 0,04/g (100g = R$ 4)</td>
+            </tr>
+            <tr>
+                <td>Óleo</td>
+                <td>R$ 7/900ml</td>
+                <td>R$ 0,0078/ml (100ml = R$ 0,78)</td>
+            </tr>
+            <tr>
+                <td>Gás</td>
+                <td>R$ 120/botijão</td>
+                <td>Dura para várias fornadas</td>
+            </tr>
+        </table>
+        
+        <p><strong>Outros custos estimados:</strong></p>
+        <ul>
+            <li>Sal, açúcar e outros ingredientes menores: R$ 5-10 por receita básica</li>
+            <li>Embalagem (sacos ou caixas): R$ 10-20 iniciais</li>
+            <li><strong>Total inicial estimado:</strong> R$ 150-200 (incluindo gás, ingredientes e embalagem)</li>
+        </ul>
+    </section>
+    
+    <section>
+        <h2>2. Produtos e Quantidades</h2>
+        
+        <div class="strategy-card">
+            <h3>Pães Caseiros</h3>
+            <p><strong>Custo por unidade:</strong> ~R$ 2,98</p>
+            <ul>
+                <li>0,5 kg de trigo (R$ 2)</li>
+                <li>10g de fermento (R$ 0,40)</li>
+                <li>10ml de óleo (R$ 0,078)</li>
+                <li>Outros ingredientes (R$ 0,50)</li>
+            </ul>
+            <p><strong>Preço de venda sugerido:</strong> R$ 5-6</p>
+        </div>
+        
+        <div class="strategy-card">
+            <h3>Pré-pizzas</h3>
+            <p><strong>Custo por unidade:</strong> ~R$ 1,96</p>
+            <ul>
+                <li>0,3 kg de trigo (R$ 1,20)</li>
+                <li>5g de fermento (R$ 0,20)</li>
+                <li>5ml de óleo (R$ 0,039)</li>
+                <li>Extras (R$ 0,50)</li>
+            </ul>
+            <p><strong>Preço de venda sugerido:</strong> R$ 4-5</p>
+        </div>
+        
+        <div class="strategy-card">
+            <h3>Outros panificados</h3>
+            <p>(Roscas, bolos simples, etc.)</p>
+            <p><strong>Custo similar ao pão</strong></p>
+            <p><strong>Preço de venda sugerido:</strong> R$ 5-7</p>
+        </div>
+    </section>
+    
+    <section>
+        <h2>3. Estimativa de Produção</h2>
+        <p>Com um investimento inicial de R$ 200:</p>
+        
+        <table>
+            <tr>
+                <th>Ingrediente</th>
+                <th>Quantidade</th>
+                <th>Custo</th>
+            </tr>
+            <tr>
+                <td>Trigo</td>
+                <td>50 kg</td>
+                <td>R$ 200</td>
+            </tr>
+            <tr>
+                <td>Fermento</td>
+                <td>500g</td>
+                <td>R$ 20 (incluído)</td>
+            </tr>
+            <tr>
+                <td>Óleo</td>
+                <td>900ml</td>
+                <td>R$ 7 (incluído)</td>
+            </tr>
+            <tr>
+                <td>Gás</td>
+                <td>1 botijão</td>
+                <td>R$ 120 (já coberto)</td>
+            </tr>
+            <tr>
+                <td>Outros</td>
+                <td>Sal, açúcar, embalagem</td>
+                <td>~R$ 53</td>
+            </tr>
+        </table>
+        
+        <p><strong>Produção estimada:</strong></p>
+        <ul>
+            <li><span class="highlight">Pães:</span> ~100 unidades (50 kg de trigo ÷ 0,5 kg por pão)</li>
+            <li><span class="highlight">Pré-pizzas:</span> ~166 unidades (50 kg ÷ 0,3 kg por pré-pizza)</li>
+        </ul>
+    </section>
+    
+    <section>
+        <h2>4. Plano de Vendas</h2>
+        
+        <div class="strategy-card">
+            <h3>Cenário de Vendas</h3>
+            <p><strong>Pães:</strong> R$ 6 x 100 = R$ 600</p>
+            <p><strong>Pré-pizzas:</strong> R$ 5 x 100 = R$ 500</p>
+            <p><strong>Total bruto:</strong> R$ 1.100</p>
+            <p><strong>Lucro estimado:</strong> R$ 1.100 - R$ 200 = <span class="highlight">R$ 900</span></p>
+        </div>
+        
+        <p>Para alcançar a meta de R$ 1.500, você pode:</p>
+        <ul>
+            <li>Aumentar a produção e vender mais unidades</li>
+            <li>Ajustar os preços levemente (ex.: vender pães a R$ 7)</li>
+            <li>Adicionar outros produtos com maior margem de lucro</li>
+        </ul>
+    </section>
+    
+    <section>
+        <h2>5. Estratégia de Venda</h2>
+        
+        <div class="strategy-card">
+            <h3>Locais de Venda</h3>
+            <ul>
+                <li>Comunidade local (vizinhos, amigos)</li>
+                <li>Feiras de bairro (ex.: em Capitólio, MG)</li>
+                <li>Redes sociais (Instagram com #pãocaseiro, #prépizza)</li>
+            </ul>
+        </div>
+        
+        <div class="strategy-card">
+            <h3>Promoções</h3>
+            <ul>
+                <li>Desconto na primeira compra (ex.: 2 pães por R$ 10)</li>
+                <li>Amostras grátis para atrair clientes</li>
+                <li>Fidelidade (a cada 10 compras, ganhe 1 pão grátis)</li>
+            </ul>
+        </div>
+        
+        <div class="strategy-card">
+            <h3>Escala de Vendas</h3>
+            <p>Se vender por semana:</p>
+            <ul>
+                <li>50 pães a R$ 6 = R$ 300</li>
+                <li>50 pré-pizzas a R$ 5 = R$ 250</li>
+                <li><strong>Total semanal:</strong> R$ 550</li>
+                <li><strong>Em 3 semanas:</strong> R$ 1.650</li>
+            </ul>
+        </div>
+    </section>
+    
+    <section>
+        <h2>6. Cronograma</h2>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>Semana 1</h3>
+                <p>Investir os R$ 200 iniciais, produzir primeira leva e testar o mercado</p>
+            </div>
+            
+            <div class="timeline-item">
+                <h3>Semana 2-3</h3>
+                <p>Reinvestir lucros, aumentar produção e ajustar preços conforme demanda</p>
+            </div>
+            
+            <div class="timeline-item">
+                <h3>Semana 4</h3>
+                <p>Avaliar resultados e finalizar meta de R$ 1.500</p>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <h2>7. Dicas Práticas</h2>
+        <div class="strategy-card">
+            <ul>
+                <li>Use o forno de casa inicialmente para economizar gás</li>
+                <li>Controle rigoroso do estoque para evitar desperdício</li>
+                <li>Ofereça entregas locais (a pé ou bike, se já tiver)</li>
+                <li>Peça feedback dos clientes para melhorar produtos</li>
+                <li>Diversifique os produtos conforme a preferência dos clientes</li>
+            </ul>
+        </div>
+    </section>
+    
+    <footer>
+        <p>Projeto desenvolvido para arrecadar R$ 1.500 e comprar uma bike motorizada</p>
+        <p>© 2023 - Panificadora Caseira</p>
+    </footer>
+</body>
+  </html>
