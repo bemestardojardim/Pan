@@ -47,7 +47,7 @@
             font-size: 1.1rem;
             color: var(--text-secondary);
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             display: flex;
             justify-content: center;
             gap: 1.5rem;
@@ -120,6 +120,37 @@
             font-weight: 600;
         }
         
+        .quantity-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .quantity-button {
+            padding: 0.4rem 0.8rem;
+            background-color: rgba(249, 199, 79, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .quantity-button:hover {
+            background-color: rgba(249, 199, 79, 0.3);
+        }
+        
+        .quantity-button.active {
+            background-color: var(--primary);
+            color: var(--dark);
+            font-weight: 500;
+        }
+
         @media (max-width: 768px) {
             .recipe-container {
                 margin: 1rem;
@@ -133,6 +164,16 @@
             .recipe-meta {
                 flex-direction: column;
                 gap: 0.5rem;
+            }
+            
+            .quantity-buttons {
+                gap: 0.3rem;
+            }
+            
+            .quantity-button {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.85rem;
+                min-width: 70px;
             }
         }
     </style>
@@ -155,22 +196,27 @@
                 </svg>
                 4-6 pães
             </span>
-            <span class="meta-item">
+            <span class="meta-item" id="flour-amount">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
                 </svg>
                 2kg farinha
             </span>
         </div>
+        <div class="quantity-buttons">
+            <button class="quantity-button active" data-quantity="0.5">Meio Kilo</button>
+            <button class="quantity-button" data-quantity="1">1 Kilo</button>
+            <button class="quantity-button" data-quantity="2">2 Kilos</button>
+        </div>
 
         <h2 class="section-title">🧾 Ingredientes</h2>
-        <ul class="ingredient-list list-disc">
-            <li><span class="text-yellow-300">2 kg</span> de farinha de trigo (pode ser especial para pão)</li>
-            <li><span class="text-yellow-300">40 g</span> de sal (cerca de 2 colheres de sopa rasas)</li>
-            <li><span class="text-yellow-300">40 g</span> de açúcar (para ativar o fermento)</li>
-            <li><span class="text-yellow-300">40 g</span> de fermento biológico seco (4 pacotes de 10g)</li>
-            <li><span class="text-yellow-300">1,2 litros</span> de água morna (na temperatura do corpo)</li>
-            <li><span class="text-yellow-300">120 ml</span> de azeite de oliva extra virgem</li>
+        <ul class="ingredient-list list-disc" id="ingredients-list">
+            <li><span class="text-yellow-300" data-ingredient="flour">2 kg</span> de farinha de trigo (pode ser especial para pão)</li>
+            <li><span class="text-yellow-300" data-ingredient="salt">40 g</span> de sal (cerca de 2 colheres de sopa rasas)</li>
+            <li><span class="text-yellow-300" data-ingredient="sugar">40 g</span> de açúcar (para ativar o fermento)</li>
+            <li><span class="text-yellow-300" data-ingredient="yeast">40 g</span> de fermento biológico seco (4 pacotes de 10g)</li>
+            <li><span class="text-yellow-300" data-ingredient="water">1,2 litros</span> de água morna (na temperatura do corpo)</li>
+            <li><span class="text-yellow-300" data-ingredient="oil">120 ml</span> de azeite de oliva extra virgem</li>
             <li class="opacity-80">(Opcional) 1 ovo para pincelar antes de assar</li>
         </ul>
 
@@ -197,5 +243,49 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        const ingredients = {
+            flour: { base: 2000, unit: 'g' }, // 2 kg
+            salt: { base: 40, unit: 'g' },   // 40 g
+            sugar: { base: 40, unit: 'g' },  // 40 g
+            yeast: { base: 40, unit: 'g' },  // 40 g
+            water: { base: 1200, unit: 'ml' }, // 1,2 litros
+            oil: { base: 120, unit: 'ml' }   // 120 ml
+        };
+
+        document.querySelectorAll('.quantity-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const quantity = parseFloat(button.dataset.quantity);
+                updateRecipe(quantity);
+
+                // Remove active class from all buttons
+                document.querySelectorAll('.quantity-button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+
+        function updateRecipe(quantity) {
+            const scale = quantity / 2; // Scale factor based on 2kg as base
+
+            // Update ingredients
+            document.querySelectorAll('[data-ingredient]').forEach(element => {
+                const ingredient = element.dataset.ingredient;
+                const newValue = (ingredients[ingredient].base * scale).toFixed(ingredients[ingredient].unit === 'g' || ingredients[ingredient].unit === 'ml' ? 0 : 1);
+                element.textContent = `${newValue} ${ingredients[ingredient].unit}`;
+            });
+
+            // Update flour amount in meta
+            const flourAmount = document.getElementById('flour-amount');
+            flourAmount.textContent = `${quantity}kg farinha`;
+
+            // Update title
+            const title = document.querySelector('.recipe-title');
+            title.textContent = `Pão Caseiro Artesanal | ${quantity}kg`;
+        }
+
+        // Initial load with 0.5kg
+        updateRecipe(0.5);
+    </script>
 </body>
 </html>
