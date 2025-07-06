@@ -1,5 +1,11 @@
 {
-  "currentAmount": 0,
+  "currentAmount": 5,
   "goalAmount": 1500,
-  "transactions": []
+  "transactions": [
+    {
+      "amount": 5,
+      "isAddition": true,
+      "date": "2025-07-06T05:50:53.083Z"
+    }
+  ]
 }
