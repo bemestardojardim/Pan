@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Técnica de Douração com Ovo | Pães do Gerardo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f9c74f;
+            --secondary: #90be6d;
+            --accent: #f94144;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --text: #e2e8f0;
+            --text-secondary: #94a3b8;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        .recipe-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: var(--darker);
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .recipe-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-top: 2rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            font-weight: 600;
+        }
+        
+        .steps-list {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .steps-list li {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            color: var(--text);
+            padding-left: 0.5rem;
+        }
+        
+        .steps-list li::marker {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .tips-box {
+            background: rgba(249, 199, 79, 0.1);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(249, 199, 79, 0.2);
+        }
+        
+        .tips-box h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .option-card {
+            background: rgba(144, 190, 109, 0.1);
+            border: 1px solid rgba(144, 190, 109, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .option-title {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .recipe-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .recipe-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="recipe-container">
+        <img src="https://images.unsplash.com/photo-1587486913049-53fc88980bea?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Pincelando ovo no pão" class="hero-image">
+        <h1 class="recipe-title">Técnica de Douração com Ovo</h1>
+        
+        <h2 class="section-title">🥚 Preparo do Ovo para Douração</h2>
+        <ol class="steps-list list-decimal">
+            <li>
+                <strong>Escolha e quebre o ovo</strong>:
+                <ul class="list-disc pl-6 mt-2 space-y-1">
+                    <li>Use 1 ovo fresco</li>
+                    <li><strong>Opção 1</strong>: Ovo inteiro (gema + clara) para dourado moderado</li>
+                    <li><strong>Opção 2</strong>: Apenas gema para cor mais intensa</li>
+                    <li>Coloque em tigela pequena e limpa</li>
+                </ul>
+            </li>
+            
+            <li>
+                <strong>Adicione um líquido (opcional)</strong>:
+                <div class="option-card">
+                    <div class="option-title">Opções de líquido:</div>
+                    <ul class="list-disc pl-6 space-y-1">
+                        <li><strong>Água</strong> (5ml): Brilho leve e neutro</li>
+                        <li><strong>Leite</strong> (5ml): Tom mais cremoso e dourado</li>
+                        <li><strong>Azeite</strong> (5ml): Acabamento suave e saboroso</li>
+                    </ul>
+                </div>
+            </li>
+            
+            <li>
+                <strong>Bata bem com um garfo</strong>:
+                <ul class="list-disc pl-6 mt-2 space-y-1">
+                    <li>Misture vigorosamente por 30-60 segundos</li>
+                    <li>Até obter consistência homogênea</li>
+                    <li>Sem pedaços ou grumos</li>
+                    <li>Textura fluida o suficiente para pincelar</li>
+                </ul>
+            </li>
+        </ol>
+
+        <div class="tips-box">
+            <h3>🌟 Dicas do Padeiro Noturno</h3>
+            <ul class="list-disc pl-6 space-y-2">
+                <li><strong>Higiene</strong>: Lave bem as mãos e utensílios antes de manusear o ovo</li>
+                <li><strong>Quantidade</strong>: 1 ovo para 2kg de farinha (4-6 pães)</li>
+                <li><strong>Teste</strong>: Experimente em um pedacinho de massa primeiro</li>
+                <li><strong>Temperatura</strong>: Ovo em temperatura ambiente adere melhor</li>
+                <li><strong>Armazenamento</strong>: Descarte sobras - não reutilize a mistura</li>
+            </ul>
+        </div>
+        
+        <div class="tips-box mt-4" style="background: rgba(249, 65, 68, 0.1); border-color: rgba(249, 65, 68, 0.2);">
+            <h3 style="color: var(--accent);">🔍 Por que fazer isso?</h3>
+            <p class="mt-2">A mistura de ovo cria uma "verniz" natural que, durante o assamento:</p>
+            <ul class="list-disc pl-6 mt-2 space-y-1">
+                <li>Proporciona crosta dourada e atraente</li>
+                <li>Aumenta o brilho superficial</li>
+                <li>Torna a casca mais crocante</li>
+                <li>Protege a superfície do pão</li>
+                <li>Pode realçar o sabor dependendo do líquido usado</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
