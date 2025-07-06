@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrecadação para Bike Motorizada</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --primary-color: #60a5fa;
+            --secondary-color: #1e3a8a;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --card-bg: #1f2937;
+            --border-color: #374151;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        .goal-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .chart-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .progress-text {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .goal-amount {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .current-amount {
+            font-weight: bold;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .history {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .history h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+        }
+        
+        .transaction-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .transaction {
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .positive {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+        
+        .negative {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .transaction-date {
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+        
+        @media (max-width: 600px) {
+            .chart-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Arrecadação para Bike Motorizada</h1>
+        <p>Acompanhe o progresso para alcançar R$ 1.500</p>
+    </header>
+    
+    <div class="goal-container">
+        <div class="chart-container">
+            <canvas id="progressChart"></canvas>
+        </div>
+        
+        <div class="progress-text">
+            Arrecadado: <span class="current-amount" id="currentAmount">R$ 0</span> 
+            de <span class="goal-amount">R$ 1.500</span>
+        </div>
+    </div>
+    
+    <div class="history">
+        <h2>Histórico de Transações</h2>
+        <ul class="transaction-list" id="transactionList"></ul>
+    </div>
+    
+    <script>
+        // Configuração inicial
+        let currentAmount = 0;
+        const goalAmount = 1500;
+        let transactions = [];
+        
+        // Elementos do DOM
+        const currentAmountElement = document.getElementById('currentAmount');
+        const transactionList = document.getElementById('transactionList');
+        
+        // Configuração do gráfico
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        const progressChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Arrecadado', 'Restante'],
+                datasets: [{
+                    data: [0, goalAmount],
+                    backgroundColor: ['#60a5fa', '#374151'],
+                    borderColor: '#121212',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#e0e0e0' }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const percentage = Math.round((value / goalAmount) * 100);
+                                return `${label}: R$ ${value.toFixed(2)} (${percentage}%)`;
+                            }
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+        
+        // Função para carregar os dados do data.json
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar data.json');
+                }
+                const data = await response.json();
+                currentAmount = data.currentAmount || 0;
+                transactions = data.transactions || [];
+                updateChart();
+                updateTransactionList();
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                currentAmountElement.textContent = 'Erro ao carregar';
+            }
+        }
+        
+        // Função para atualizar o gráfico
+        function updateChart() {
+            const remaining = Math.max(0, goalAmount - currentAmount);
+            progressChart.data.datasets[0].data = [currentAmount, remaining];
+            progressChart.update();
+            currentAmountElement.textContent = `R$ ${currentAmount.toFixed(2)}`;
+        }
+        
+        // Função para atualizar a lista de transações
+        function updateTransactionList() {
+            transactionList.innerHTML = '';
+            transactions.forEach(transaction => {
+                const li = document.createElement('li');
+                li.className = `transaction ${transaction.isAddition ? 'positive' : 'negative'}`;
+                
+                const amountSpan = document.createElement('span');
+                amountSpan.textContent = `${transaction.isAddition ? '+' : '-'} R$ ${transaction.amount.toFixed(2)}`;
+                
+                const dateSpan = document.createElement('span');
+                dateSpan.className = 'transaction-date';
+                dateSpan.textContent = new Date(transaction.date).toLocaleString('pt-BR');
+                
+                li.appendChild(amountSpan);
+                li.appendChild(dateSpan);
+                transactionList.appendChild(li);
+            });
+        }
+        
+        // Carregar os dados ao iniciar
+        loadData();
+    </script>
+</body>
+</html>
