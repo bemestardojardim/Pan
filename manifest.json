@@ -4,7 +4,7 @@
   "description": "Visualize o progresso de arrecadação do Pan",
   "start_url": "/Pan/Grafico.html",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "theme_color": "#007bff",
   "icons": [
     {
