@@ -1,5 +1,24 @@
 {
-  "currentAmount": ,
+  "currentAmount": 1400,
   "goalAmount": 4224,
-  "transactions": []
+  "transactions": [
+    {
+      "amount": 1000,
+      "isAddition": true,
+      "date": "2023-10-01T10:00:00",
+      "description": "Trabalho 10 dias"
+    },
+    {
+      "amount": 100,
+      "isAddition": true,
+      "date": "2023-10-05T15:30:00",
+      "description": "Pagamento adicional"
+    },
+    {
+      "amount": 300,
+      "isAddition": true,
+      "date": "2023-10-05T16:45:00",
+      "description": "Pagamento adicional"
+    }
+  ]
 }
