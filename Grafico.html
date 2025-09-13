@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arrecadação para Bike Motorizada</title>
-    <link rel="manifest" href="/Pan/manifest.json">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -47,12 +46,46 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 30px;
+            position: relative;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         .chart-container {
             width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
+        }
+
+        .center-value-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .center-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .center-label {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-top: 5px;
         }
 
         .progress-text {
@@ -139,8 +172,12 @@
         }
 
         @media (max-width: 600px) {
-            .chart-container {
+            .chart-wrapper {
                 max-width: 100%;
+            }
+            
+            .center-value {
+                font-size: 2rem;
             }
         }
     </style>
@@ -152,8 +189,14 @@
     </header>
 
     <div class="goal-container">
-        <div class="chart-container">
-            <canvas id="progressChart"></canvas>
+        <div class="chart-wrapper">
+            <div class="chart-container">
+                <canvas id="progressChart"></canvas>
+            </div>
+            <div class="center-value-container">
+                <div class="center-value" id="centerValue">4.224</div>
+                <div class="center-label">restantes</div>
+            </div>
         </div>
 
         <div class="progress-text">
@@ -192,6 +235,7 @@
         const adminToggle = document.getElementById('adminToggle');
         const adminPanel = document.getElementById('adminPanel');
         const jsonData = document.getElementById('jsonData');
+        const centerValue = document.getElementById('centerValue');
 
         // Configuração do gráfico
         const ctx = document.getElementById('progressChart').getContext('2d');
@@ -208,6 +252,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -224,9 +269,19 @@
                         }
                     }
                 },
-                cutout: '70%'
+                cutout: '70%',
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
             }
         });
+
+        // Ajustar altura do canvas para manter proporção
+        function adjustChartHeight() {
+            const chartContainer = document.querySelector('.chart-container');
+            chartContainer.style.height = chartContainer.offsetWidth + 'px';
+        }
 
         // Função para carregar os dados do data.json
         async function loadData() {
@@ -258,6 +313,10 @@
             const remaining = Math.max(0, goalAmount - currentAmount);
             progressChart.data.datasets[0].data = [currentAmount, remaining];
             progressChart.update();
+            
+            // Atualizar o valor no centro do gráfico
+            centerValue.textContent = remaining.toFixed(0);
+            
             currentAmountElement.textContent = `R$ ${currentAmount.toFixed(2)}`;
         }
 
@@ -301,8 +360,12 @@
             adminPanel.style.display = adminPanel.style.display === 'none' ? 'block' : 'none';
         });
 
+        // Ajustar altura do gráfico quando a janela for redimensionada
+        window.addEventListener('resize', adjustChartHeight);
+
         // Carregar os dados ao iniciar
         loadData();
+        adjustChartHeight();
     </script>
 </body>
 </html>
