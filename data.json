@@ -1,5 +1,5 @@
 {
-  "currentAmount": 0,
-  "goalAmount": 1500,
-  "transactions": []
+  "currentAmount": 1000,
+  "goalAmount": 4224,
+  "transactions": [1000]
 }
