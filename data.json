@@ -1,13 +1,7 @@
 {
-  "currentAmount": 1200,
+  "currentAmount": 2600,
   "goalAmount": 4224,
   "transactions": [
-    {
-      "amount": 1200,
-      "description": "Pagamento inicial",
-      "date": "2025-10-03T00:00:00.000Z",
-      "isAddition": true
-    },
     {
       "amount": 1000,
       "isAddition": true,
@@ -25,6 +19,12 @@
       "isAddition": true,
       "date": "2025-10-02T16:45:00",
       "description": "Pagamento adicional"
+    },
+    {
+      "amount": 1200,
+      "description": "Pagamento inicial",
+      "date": "2025-10-03T00:00:00.000Z",
+      "isAddition": true
     }
   ]
 }
