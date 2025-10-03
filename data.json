@@ -19,6 +19,13 @@
       "isAddition": true,
       "date": "2023-10-05T16:45:00",
       "description": "Pagamento adicional"
+    },
+    {
+      "amount": 1200,
+      "isAddition": true,
+      "date": "2023-03-10T16:45:00",
+      "description": "Pagamento adicional"
     }
+
   ]
 }
