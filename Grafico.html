@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="refresh" content="10"> <!-- Atualiza a cada 2 horas -->
+    <!-- REMOVIDO: meta refresh -->
     <title>Arrecadação para Bike Motorizada</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -194,10 +194,13 @@
             font-size: 0.8rem;
             color: #9ca3af;
         }
-        
+
         .pagamento {
           background-color: rgba(239, 68, 68, 0.1);
           color: var(--danger-color);
+          padding: 15px;
+          border-radius: 8px;
+          margin-top: 20px;
         }
 
         .admin-panel {
@@ -242,6 +245,26 @@
             animation: confetti-fall 5s linear infinite;
         }
 
+        .loading-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: none;
+            z-index: 1001;
+        }
+
+        .last-update {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-top: 10px;
+        }
+
         @keyframes confetti-fall {
             0% {
                 transform: translateY(-100px) rotate(0deg);
@@ -257,7 +280,7 @@
             .chart-wrapper {
                 max-width: 100%;
             }
-            
+
             .center-value {
                 font-size: 2rem;
             }
@@ -268,10 +291,12 @@
     <div class="watermark"></div>
     <div class="airplane">✈</div>
     <div class="celebration" id="celebration"></div>
+    <div class="loading-indicator" id="loadingIndicator">🔄 Atualizando...</div>
 
     <header>
         <h1>Pago Claudinei</h1>
         <p>Acompanhe o progresso para alcançar R$ <span id="goalAmountDisplay">4.224</span></p>
+        <div class="last-update" id="lastUpdate"></div>
     </header>
 
     <div class="goal-container">
@@ -289,11 +314,10 @@
             Arrecadado: <span class="current-amount" id="currentAmount">R$ 0</span> 
             de <span class="goal-amount">R$ <span id="goalAmountValue">4.224</span></span>
         </div>
-      <div class="pagamento">
-  <div>
-    <h3>Próximo pagamento: 31/10/2025<br>Valor=R$1.624</h3>
-  </div>
-</div>
+        
+        <div class="pagamento">
+            <h3>Próximo pagamento: 31/10/2025<br>Valor=R$1.624</h3>
+        </div>
     </div>
 
     <div class="history">
@@ -318,6 +342,8 @@
         let goalAmount = 4224;
         let transactions = [];
         let hasCelebrated = false;
+        let updateInterval;
+        let isUpdating = false;
 
         // Elementos do DOM
         const currentAmountElement = document.getElementById('currentAmount');
@@ -329,6 +355,8 @@
         const jsonData = document.getElementById('jsonData');
         const centerValue = document.getElementById('centerValue');
         const celebration = document.getElementById('celebration');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const lastUpdateElement = document.getElementById('lastUpdate');
 
         // Configuração do gráfico
         const ctx = document.getElementById('progressChart').getContext('2d');
@@ -376,11 +404,30 @@
             chartContainer.style.height = chartContainer.offsetWidth + 'px';
         }
 
+        // Função para mostrar/ocultar loading
+        function showLoading() {
+            if (!isUpdating) {
+                loadingIndicator.style.display = 'block';
+                isUpdating = true;
+            }
+        }
+
+        function hideLoading() {
+            loadingIndicator.style.display = 'none';
+            isUpdating = false;
+        }
+
+        // Função para atualizar timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            lastUpdateElement.textContent = `Última atualização: ${now.toLocaleTimeString('pt-BR')}`;
+        }
+
         // Função para criar confetti
         function createConfetti() {
             celebration.innerHTML = '';
             celebration.style.display = 'block';
-            
+
             for (let i = 0; i < 150; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
@@ -391,7 +438,7 @@
                 confetti.style.height = Math.random() * 15 + 5 + 'px';
                 celebration.appendChild(confetti);
             }
-            
+
             // Reproduzir som de celebração (se disponível)
             try {
                 const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDci0FLHfR8tiJNwgZWLzv559NEAxEqevwtmMcBjiM1/LMeSwFJGrL8N+MOAgZVLnr56dNEAxAp+vwu2McBjZ/1/LMeSwFJGfL8N+MOAgZULnr56dNEAw+p+vwu2McBjV91/LMeSwFI2bL8N+MOAgZTbnr56dNEAw8p+vwu2McBjR71/LMeSwFImXL8N+MOAgZSrnr56dNEAw6p+vwu2McBjN61/LMeSwFImTL8N+MOAgZSLnr56dNEAw4p+vwu2McBjJ51/LMeSwFImPL8N+MOAgZRrnr56dNEAw2p+vwu2McBjF41/LMeSwFImLL8N+MOAgZRLnr56dNEAw0p+vwu2McBjB31/LMeSwFImHL8N+MOAgZQrnr56dNEAwyp+vwu2McBjB31/LMeSwFImDL8N+MOAgZQLnr56dNEAwwp+vwu2McBjB31/LMeSwFIl/L8N+MOAgZPrnr56dNEAwup+vwu2McBjB31/LMeSwFIl7L8N+MOAgZPLnr56dNEAwsp+vwu2McBjB31/LMeSwFIl3L8N+MOAgZOrnr56dNEAwqp+vwu2McBjB31/LMeSwFIlzL8N+MOAgZOLnr56dNEAwop+vwu2McBjB31/LMeSwFIlvL8N+MOAgZNLnr56dNEAwmp+vwu2McBjB31/LMeSwFIlrL8N+MOAgZMrnr56dNEAwkp+vwu2McBjB31/LMeSwFIljL8N+MOAgZMLnr56dNEAwip+vwu2McBjB31/LMeSwFIlfL8N+MOAgZILnr56dNEAwgp+vwu2McBjB31/LMeSwFIlbL8N+MOAgZILnr56dNEAwep+vwu2McBjB31/LMeSwFIlXL8N+MOAgZHLnr56dNEAwcp+vwu2McBjB31/LMeSwFIlTL8N+MOAgZGrnr56dNEAwap+vwu2McBjB31/LMeSwFIlPL8N+MOAgZGbnr56dNEAwYp+vwu2McBjB31/LMeSwFIlLL8N+MOAgZGLnr56dNEAwWp+vwu2McBjB31/LMeSwFIlHL8N+MOAgZFrnp56dNEAwUp+vwu2McBjB31/LMeSwFIlDL8N+MOAgZFLnp56dNEAwSp+vwu2McBjB31/LMeSwFIk/L8N+MOAgZErnp56dNEAwQp+vwu2McBjB31/LMeSwFIk7L8N+MOAgZELnp56dNEAwOp+vwu2McBjB31/LMeSwFIk3L8N+MOAgZD7np56dNEAwMp+vwu2McBjB31/LMeSwFIkzL8N+MOAgZDrnp56dNEAwKp+vwu2McBjB31/LMeSwFIkvL8N+MOAgZDLnp56dNEAwIp+vwu2McBjB31/LMeSwFIkrL8N+MOAgZCrnp56dNEAwGp+vwu2McBjB31/LMeSwFIknL8N+MOAgZCLnp56dNEAwEp+vwu2McBjB31/LMeSwFIkjL8N+MOAgZBrnp56dNEAwCp+vwu2McBjB31/LMeSwFIkfL8N+MOAgZBLnp56dNEAwAp+vwu2McBjB31/LMeSwFIkbL8N+MOAgZArnp56dNEAv+p+vwu2McBjB31/LMeSwFIkXL8N+MOAgY/rnp56dNEAv8p+vwu2McBjB31/LMeSwFIkTL8N+MOAgY/Lnp56dNEAv6p+vwu2McBjB31/LMeSwFIkPL8N+MOAgY+rnq56dNE');
@@ -399,7 +446,7 @@
             } catch (e) {
                 console.log('Áudio de celebração não pôde ser reproduzido');
             }
-            
+
             // Ocultar confetti após 5 segundos
             setTimeout(() => {
                 celebration.style.display = 'none';
@@ -408,24 +455,30 @@
 
         // Função para carregar os dados do data.json
         async function loadData() {
+            if (isUpdating) return; // Previne múltiplas chamadas simultâneas
+            
+            showLoading();
+            
             try {
-                const response = await fetch('data.json');
+                // Adiciona timestamp para evitar cache
+                const response = await fetch('data.json?' + new Date().getTime());
                 if (!response.ok) {
                     throw new Error('Erro ao carregar data.json');
                 }
                 const data = await response.json();
-                
+
                 // Atualizar valores com base no JSON
                 currentAmount = data.currentAmount || 0;
                 goalAmount = data.goalAmount || 4224;
                 transactions = data.transactions || [];
-                
+
                 // Atualizar a interface
                 updateChart();
                 updateTransactionList();
                 updateGoalDisplay();
                 updateJsonDisplay(data);
-                
+                updateTimestamp();
+
                 // Verificar se atingiu a meta e acionar celebração
                 if (currentAmount >= goalAmount && !hasCelebrated) {
                     createConfetti();
@@ -434,6 +487,8 @@
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
                 currentAmountElement.textContent = 'Erro ao carregar';
+            } finally {
+                hideLoading();
             }
         }
 
@@ -442,10 +497,10 @@
             const remaining = Math.max(0, goalAmount - currentAmount);
             progressChart.data.datasets[0].data = [currentAmount, remaining];
             progressChart.update();
-            
+
             // Atualizar o valor no centro do gráfico
             centerValue.textContent = remaining.toFixed(0);
-            
+
             currentAmountElement.textContent = `R$ ${currentAmount.toFixed(2)}`;
         }
 
@@ -464,7 +519,7 @@
 
                 const descriptionDiv = document.createElement('div');
                 descriptionDiv.textContent = transaction.description || '';
-                
+
                 const amountSpan = document.createElement('span');
                 amountSpan.textContent = `${transaction.isAddition ? '+' : '-'} R$ ${transaction.amount.toFixed(2)}`;
 
@@ -484,6 +539,22 @@
             jsonData.textContent = JSON.stringify(data, null, 2);
         }
 
+        // Iniciar sistema de atualização automática
+        function startAutoUpdate() {
+            // Atualiza a cada 5 segundos
+            updateInterval = setInterval(loadData, 5000);
+            
+            // Atualiza quando a página ganha foco
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    loadData(); // Atualiza imediatamente quando usuário volta
+                }
+            });
+
+            // Atualiza quando a conexão volta (online/offline)
+            window.addEventListener('online', loadData);
+        }
+
         // Alternar visibilidade do painel admin
         adminToggle.addEventListener('click', () => {
             adminPanel.style.display = adminPanel.style.display === 'none' ? 'block' : 'none';
@@ -492,9 +563,10 @@
         // Ajustar altura do gráfico quando a janela for redimensionada
         window.addEventListener('resize', adjustChartHeight);
 
-        // Carregar os dados ao iniciar
+        // Carregar os dados ao iniciar e iniciar auto-update
         loadData();
         adjustChartHeight();
+        startAutoUpdate();
     </script>
 </body>
 </html>
