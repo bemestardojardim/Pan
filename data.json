@@ -25,6 +25,12 @@
       "description": "Pagamento inicial",
       "date": "2025-10-03T00:00:00.000Z",
       "isAddition": true
+    },
+    {
+      "amount": 1624,
+      "description": "Pagamento final",
+      "date": "2025-10-03T00:00:00.000Z",
+      "isAddition": true
     }
   ]
 }
